@@ -15,7 +15,8 @@
   --accent: #3a2bd0; --accent-fg: #ffffff; --accent-soft: #e2defc;
   --gold: #c98a00; --gold-soft: #fbedc6; --on-track: #ffffff;
   --plan: #dddbe4; --plan-edge: #c9c6d3; --plan-grey: #96939f; --plan-dark: #22202a; --plan-text: #6d6a7a;
-  --t-relic: #d4500f; --t-cage: #b0329a; --t-forge: #178a4a; --t-intra: #1670c0; --t-portal: #6c40d4;
+  --t-relic: #ff5a00; --t-cage: #e0109f; --t-forge: #00a650; --t-intra: #0a84ff; --t-portal: #7a2cff;
+  --pulse: #ff00c8; --pulse-2: #00f0ff;
   --t-off: #8a6d00; --t-other: #67647c; --now: #0d8589;
   --f-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -28,14 +29,14 @@
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
   --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
   --t-relic: #ff8a4c; --t-cage: #f07fd8; --t-forge: #3ddc84; --t-intra: #5cb8ff; --t-portal: #ad8fff;
-  --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; color-scheme: dark } }
+  --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #111017; --surface: #1c1a25; --surface-2: #2a2734; --fg: #efedf5; --muted: #a6a2b8; --line: #36324a;
   --accent: #9d8fff; --accent-fg: #120c2e; --accent-soft: #2a2350;
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
   --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
   --t-relic: #ff8a4c; --t-cage: #f07fd8; --t-forge: #3ddc84; --t-intra: #5cb8ff; --t-portal: #ad8fff;
-  --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; color-scheme: dark }
+  --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark }
 
 * { box-sizing: border-box }
 [hidden] { display: none !important }
@@ -144,9 +145,9 @@ svg .room.pick .badge { display: block }
 svg .badge circle { fill: var(--gold); stroke: var(--bg); stroke-width: 4 }
 svg .badge text { font: 700 28px var(--f-body); fill: #1c1400; text-anchor: middle }
 svg .room:hover .shape, svg .room.hl .shape, svg .room:focus-visible .shape { stroke: var(--fg); stroke-width: 6; stroke-opacity: 1 }
-svg .room.flash .shape { animation: flash 1.4s ease-out 2 }
-@keyframes flash { 30% { stroke: var(--accent); stroke-width: 18; stroke-opacity: 1 } }
-@media (prefers-reduced-motion: reduce) { svg .room .shape { transition: none } svg .room.flash .shape { animation: none; stroke: var(--accent); stroke-width: 12 } }
+svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
+@keyframes flash { 0%,100% { stroke-opacity: 1 } 45% { stroke: var(--pulse); stroke-width: 22; stroke-opacity: 1; fill: var(--pulse); fill-opacity: .55; filter: drop-shadow(0 0 14px var(--pulse)) drop-shadow(0 0 28px var(--pulse-2)) } }
+@media (prefers-reduced-motion: reduce) { svg .room .shape { transition: none } svg .room.flash .shape { animation: none; stroke: var(--pulse); stroke-width: 14 } }
 
 .lv-h { font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 14px 0 0 }
 .empty { color: var(--muted); font-size: 13.5px; margin: 6px 0 }
@@ -666,7 +667,7 @@ svg .room.flash .shape { animation: flash 1.4s ease-out 2 }
   function flashRoom(room) {
     const g = roomEl(room); if (!g) return;
     g.classList.remove('flash'); requestAnimationFrame(() => g.classList.add('flash'));
-    setTimeout(() => g.classList.remove('flash'), 3000);
+    setTimeout(() => g.classList.remove('flash'), 3800);
   }
 
   // ---------- events ----------
