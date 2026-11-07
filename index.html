@@ -5,6 +5,8 @@
 <title>Games Ground Weekend Map</title>
 <meta name="description" content="Live map and program for the Games Ground 2026 public days, Sat 7 and Sun 8 Nov 2026 at Alte Münze, Berlin: what is on at every stage in each time slot.">
 <meta name="theme-color" content="#642ba6">
+<meta name="color-scheme" content="light dark">
+<meta name="darkreader-lock">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -123,6 +125,11 @@ button { cursor: pointer }
 .planbox.zoom { overflow: auto; overscroll-behavior: contain }
 .planbox.zoom svg { position: static; width: 210%; height: auto }
 @media (min-width: 720px) { .planbox.zoom svg { width: 160% } }
+.planbox { background: #2a1660 }
+.planbox svg {
+  --plan: #3b1f7a; --plan-edge: #ff841f; --plan-grey: #ff841f; --plan-dark: #e06a0a; --plan-text: #ffb066; --surface: #33196e;
+  --t-relic: #ff6a1a; --t-cage: #ff8fd0; --t-forge: #1fcf8f; --t-intra: #ffe14d; --t-portal: #4d9dff; --t-off: #e0c050; --t-other: #c9b3f5;
+  --fg: #f6efff; --on-track: #1d1a22; --gold: #ffc533 }
 svg .lvl-t { font: 700 40px var(--f-display); fill: var(--plan-text); letter-spacing: .02em }
 svg .lvl-s { font: 500 28px var(--f-display); fill: var(--plan-text) }
 svg .floor { fill: var(--plan); stroke: var(--plan-edge); stroke-width: 2 }
@@ -130,12 +137,13 @@ svg .carpet { fill: url(#dots) }
 svg .stat { fill: var(--plan-grey) }
 svg .stat.dark { fill: var(--plan-dark) }
 svg .stat.hatch { fill: url(#hatch); stroke: var(--plan-edge); stroke-width: 1.5 }
-svg .stat-t { font: 700 24px var(--f-body); fill: #fff; text-anchor: middle; pointer-events: none }
-svg .stat-t.muted { fill: var(--plan-text) }
+svg .stat-t { font: 700 24px var(--f-body); fill: #1d1a22; text-anchor: middle; pointer-events: none }
+svg .stat-t.muted { fill: #e9dcff }
 svg .room { cursor: pointer; outline: none }
-svg .room .shape { fill: var(--tc); fill-opacity: .16; stroke: var(--tc); stroke-opacity: .55; stroke-width: 2.5; transition: fill-opacity .2s }
+svg .room .shape { fill: var(--tc); fill-opacity: .22; stroke: var(--tc); stroke-opacity: 1; stroke-width: 4; transition: fill-opacity .2s }
 svg .room.live .shape { fill-opacity: 1; stroke-opacity: 1 }
-svg .room .lbl { font: 700 32px var(--f-display); fill: var(--fg); text-anchor: middle; pointer-events: none; opacity: .75 }
+svg .room .lbl { font: 700 32px var(--f-display); fill: var(--fg); text-anchor: middle; pointer-events: none; opacity: 1; paint-order: stroke; stroke: #2a1660; stroke-width: 6px; stroke-linejoin: round }
+svg .room.live .lbl, svg .room.pick .lbl { stroke: none }
 svg .room.live .lbl { fill: var(--on-track); opacity: 1 }
 svg .room.live[data-room="Intraprenör"] .lbl, svg .room.live[data-room="Relic Stage"] .lbl { fill: #1c1400 }
 /* light mode: stage-coloured text is darkened so it stays readable on white (amber and orange were 2.3:1 and 3.9:1) */
@@ -289,8 +297,8 @@ svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" style="fill:var(--surface)"/><line x1="0" y1="0" x2="0" y2="10" style="stroke:var(--plan-edge)" stroke-width="3"/></pattern>
-    <pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" style="fill:var(--plan)"/><circle cx="4" cy="4" r="1.3" style="fill:var(--plan-edge)"/></pattern>
+    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" style="fill:var(--surface)"/><line x1="0" y1="0" x2="0" y2="10" style="stroke:#4b2a96" stroke-width="3"/></pattern>
+    <pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" style="fill:var(--plan)"/><circle cx="4" cy="4" r="1.3" style="fill:#4b2a96"/></pattern>
   </defs>
 </svg>
 
