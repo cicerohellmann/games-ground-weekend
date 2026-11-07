@@ -15,7 +15,7 @@
   --accent: #3a2bd0; --accent-fg: #ffffff; --accent-soft: #e2defc;
   --gold: #c98a00; --gold-soft: #fbedc6; --on-track: #ffffff;
   --plan: #dddbe4; --plan-edge: #c9c6d3; --plan-grey: #96939f; --plan-dark: #22202a; --plan-text: #6d6a7a;
-  --t-relic: #ff5a00; --t-cage: #e0109f; --t-forge: #00a650; --t-intra: #0a84ff; --t-portal: #7a2cff;
+  --t-relic: #d55e00; --t-cage: #a2407e; --t-forge: #00855f; --t-intra: #e69f00; --t-portal: #0060c0;
   --pulse: #ff00c8; --pulse-2: #00f0ff;
   --t-off: #8a6d00; --t-other: #67647c; --now: #0d8589;
   --f-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -28,14 +28,14 @@
   --accent: #9d8fff; --accent-fg: #120c2e; --accent-soft: #2a2350;
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
   --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
-  --t-relic: #ff8a4c; --t-cage: #f07fd8; --t-forge: #3ddc84; --t-intra: #5cb8ff; --t-portal: #ad8fff;
+  --t-relic: #ff6a1a; --t-cage: #ff8fd0; --t-forge: #1fcf8f; --t-intra: #ffe14d; --t-portal: #4d9dff;
   --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark } }
 :root[data-theme="dark"] {
   --bg: #111017; --surface: #1c1a25; --surface-2: #2a2734; --fg: #efedf5; --muted: #a6a2b8; --line: #36324a;
   --accent: #9d8fff; --accent-fg: #120c2e; --accent-soft: #2a2350;
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
   --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
-  --t-relic: #ff8a4c; --t-cage: #f07fd8; --t-forge: #3ddc84; --t-intra: #5cb8ff; --t-portal: #ad8fff;
+  --t-relic: #ff6a1a; --t-cage: #ff8fd0; --t-forge: #1fcf8f; --t-intra: #ffe14d; --t-portal: #4d9dff;
   --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark }
 
 * { box-sizing: border-box }
@@ -136,6 +136,7 @@ svg .room .shape { fill: var(--tc); fill-opacity: .16; stroke: var(--tc); stroke
 svg .room.live .shape { fill-opacity: 1; stroke-opacity: 1 }
 svg .room .lbl { font: 700 32px var(--f-display); fill: var(--fg); text-anchor: middle; pointer-events: none; opacity: .75 }
 svg .room.live .lbl { fill: var(--on-track); opacity: 1 }
+svg .room.live[data-room="Intraprenör"] .lbl { fill: #1c1400 }
 svg .room .ring { fill: none; stroke: var(--gold); stroke-width: 12; pointer-events: none; stroke-linejoin: round; display: none }
 svg .room.pick .ring { display: block }
 svg .room.pick .shape { fill: var(--gold) }
@@ -354,6 +355,9 @@ svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
 
   const STAGE_C = { 'Relic Stage': 'relic', 'Cage Stage': 'cage', 'The Forge': 'forge', 'Intraprenör': 'intra', 'Portal Stage': 'portal' };
   const tc = r => `var(--t-${STAGE_C[r] || 'off'})`;
+  // a shape per stage, so nobody needs to tell the colours apart
+  const GLYPH = { relic: '●', cage: '■', forge: '▲', intra: '◆', portal: '▼' };
+  const gl = r => GLYPH[STAGE_C[r]] ? GLYPH[STAGE_C[r]] + ' ' : '';
   const LABEL = { 'Electric Social': 'Electric Social (off-site)' };
 
   // ---------- venue, traced by hand from the floor-plan sign at the venue (coordinates in that photo's pixel space, 1500 x 2000) ----------
@@ -427,7 +431,7 @@ svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
       const [x, y] = centroid(g);
       const [bx, by] = [g[1][0] - 6, g[1][1]];
       s += `<g class="room" tabindex="0" role="button" data-room="${esc(room)}" style="--tc:${tc(room)}"><polygon class="shape" points="${pts(g)}"/><polygon class="ring" points="${pts(g)}"/>` +
-        lines.map((l, i) => `<text class="lbl" x="${x}" y="${y + 11 + (i - (lines.length - 1) / 2) * 32}">${esc(l)}</text>`).join('') +
+        lines.map((l, i) => `<text class="lbl" x="${x}" y="${y + 11 + (i - (lines.length - 1) / 2) * 32}">${i ? '' : gl(room)}${esc(l)}</text>`).join('') +
         `<g class="badge"><circle cx="${bx}" cy="${by}" r="22"/><text x="${bx}" y="${by + 10}">★</text></g><title></title></g>`;
     });
     return s + '</svg>';
@@ -548,7 +552,7 @@ svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
     const lvl = LEVEL_NAME[LEVEL_OF[s.room]] || OFF_MAP[s.room] || '';
     return `<details class="ses${pk ? ' picked' : ''}" style="--tc:${tc(s.room)}" data-id="${s.id}" data-room="${esc(s.room)}"${opts.open ? ' open' : ''}>
       <summary>
-        <div class="ses-meta">${live && opts.np !== false ? '<span class="np">IN SLOT</span>' : ''}<span>${s.t0}–${s.t1}</span>${opts.room !== false ? `<span class="room">${esc(SHORT[s.room] || s.room)}</span><span>${esc(lvl)}</span>` : ''}${s.de ? '<span class="de">German only</span>' : ''}${s.lvl ? `<span class="de">${esc(s.lvl)}</span>` : ''}</div>
+        <div class="ses-meta">${live && opts.np !== false ? '<span class="np">IN SLOT</span>' : ''}<span>${s.t0}–${s.t1}</span>${opts.room !== false ? `<span class="room">${gl(s.room)}${esc(SHORT[s.room] || s.room)}</span><span>${esc(lvl)}</span>` : ''}${s.de ? '<span class="de">German only</span>' : ''}${s.lvl ? `<span class="de">${esc(s.lvl)}</span>` : ''}</div>
         <div class="ses-title"><span>${esc(s.title)}</span><button type="button" class="star" data-star="${s.id}" aria-pressed="${pk}">${pk ? '★ Going' : '☆ Pick'}</button></div>
         <div class="like"><b>If you like:</b> ${esc(s.like)}</div>
       </summary>
@@ -621,7 +625,7 @@ svg .room.flash .shape { animation: flash 0.9s ease-in-out 4 }
     };
     pop.style.setProperty('--tc', tc(room));
     pop.classList.toggle('picked', on.some(s => stars.has(s.id)));
-    pop.innerHTML = `<div class="pop-h"><div class="ses-meta"><span class="room">${esc(LABEL[room] || room)}</span><span>${esc(lv)}</span>${on[0] ? `<span>${on[0].t0}–${on[0].t1}</span>` : ''}</div>
+    pop.innerHTML = `<div class="pop-h"><div class="ses-meta"><span class="room">${gl(room)}${esc(LABEL[room] || room)}</span><span>${esc(lv)}</span>${on[0] ? `<span>${on[0].t0}–${on[0].t1}</span>` : ''}</div>
         <button type="button" class="pop-x" id="pop-x" aria-label="Close">×</button></div>` +
       (on.length ? on.map(talk).join('') :
         `<p class="pop-t" id="pop-title">Nothing on in ${rng(state.a, state.b)}</p>` +
