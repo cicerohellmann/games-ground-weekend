@@ -4,17 +4,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Games Ground Weekend Map</title>
 <meta name="description" content="Live map and program for the Games Ground 2026 public days, Sat 7 and Sun 8 Nov 2026 at Alte Münze, Berlin: what is on at every stage in each time slot.">
-<meta name="theme-color" content="#3a2bd0">
+<meta name="theme-color" content="#642ba6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
 /* Layout: sticky time bar (day, selected time slot, strip of slots with gold marks for picked events); below it the whole venue drawn as one SVG traced by hand from the floor-plan sign, stages lit when an event runs and ringed gold when it is a pick; the events of the selected slot sit beside it as a second screen, or behind a Map/Events tab when the screen is too narrow for both. Copied from the devcon-map app; only content, map and branding differ. */
 :root {
-  --bg: #f4f3f8; --surface: #ffffff; --surface-2: #e7e5ee; --fg: #17151f; --muted: #5f5b6f; --line: #d8d5e2;
-  --accent: #3a2bd0; --accent-fg: #ffffff; --accent-soft: #e2defc;
+  --bg: #f6f2fc; --surface: #ffffff; --surface-2: #ebe3f8; --fg: #17151f; --muted: #5f5b6f; --line: #d8d5e2;
+  --accent: #642ba6; --accent-fg: #ffffff; --accent-soft: #ece3fd; --brand-orange: #ff841f;
   --gold: #c98a00; --gold-soft: #fbedc6; --on-track: #ffffff;
-  --plan: #dddbe4; --plan-edge: #c9c6d3; --plan-grey: #96939f; --plan-dark: #22202a; --plan-text: #6d6a7a;
+  --plan: #e6dcf7; --plan-edge: #c9b3f5; --plan-grey: #96939f; --plan-dark: #22202a; --plan-text: #6d6a7a;
   --t-relic: #d55e00; --t-cage: #a2407e; --t-forge: #00855f; --t-intra: #e69f00; --t-portal: #0060c0;
   --pulse: #ff00c8; --pulse-2: #00f0ff;
   --t-off: #8a6d00; --t-other: #67647c; --now: #0d8589;
@@ -24,21 +24,22 @@
   --r: 10px;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #111017; --surface: #1c1a25; --surface-2: #2a2734; --fg: #efedf5; --muted: #a6a2b8; --line: #36324a;
-  --accent: #9d8fff; --accent-fg: #120c2e; --accent-soft: #2a2350;
+  --bg: #1d1a22; --surface: #241b33; --surface-2: #30195c; --fg: #f3effa; --muted: #b3a9c9; --line: #3d2e5c;
+  --accent: #c9b3f5; --accent-fg: #1d1a22; --accent-soft: #30195c; --brand-orange: #ff841f;
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
-  --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
+  --plan: #2a1f45; --plan-edge: #642ba6; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
   --t-relic: #ff6a1a; --t-cage: #ff8fd0; --t-forge: #1fcf8f; --t-intra: #ffe14d; --t-portal: #4d9dff;
   --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark } }
 :root[data-theme="dark"] {
-  --bg: #111017; --surface: #1c1a25; --surface-2: #2a2734; --fg: #efedf5; --muted: #a6a2b8; --line: #36324a;
-  --accent: #9d8fff; --accent-fg: #120c2e; --accent-soft: #2a2350;
+  --bg: #1d1a22; --surface: #241b33; --surface-2: #30195c; --fg: #f3effa; --muted: #b3a9c9; --line: #3d2e5c;
+  --accent: #c9b3f5; --accent-fg: #1d1a22; --accent-soft: #30195c; --brand-orange: #ff841f;
   --gold: #ffc533; --gold-soft: #3a2e0c; --on-track: #101014;
-  --plan: #26242f; --plan-edge: #34313f; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
+  --plan: #2a1f45; --plan-edge: #642ba6; --plan-grey: #4b4858; --plan-dark: #050507; --plan-text: #9a96ab;
   --t-relic: #ff6a1a; --t-cage: #ff8fd0; --t-forge: #1fcf8f; --t-intra: #ffe14d; --t-portal: #4d9dff;
   --t-off: #e0c050; --t-other: #a9a6bd; --now: #45d3d6; --pulse: #ff3bd9; --pulse-2: #2ef6ff; color-scheme: dark }
 
 * { box-sizing: border-box }
+.brand { border-left: 5px solid var(--brand-orange); padding-left: 9px }
 [hidden] { display: none !important }
 html, body { height: 100%; overflow: hidden }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.45; margin: 0; padding: 0 16px; height: 100dvh; display: flex; flex-direction: column; overscroll-behavior: none }
